@@ -35,25 +35,28 @@
 </body>
 
 <script>
-var bookObj = {"MH": "Ministry of Healing", "CD": "Counsels on Diet and Foods", 
-      			"DA": "Desire of Ages"};
- 
+var bookObj = {"MH": {"book": "Ministry of Healing", "totalP": 100}, 
+               "CD": {"book": "Counsels on Diet and Foods", "totalP": 300},
+      		   "DA": {"book": "Desire of Ages", "totalP": 400}
+              };
  var id = "";     			
 var txt = "";
 var totalVerses = 31102;
 var bookCode = "";
 for (var x in bookObj){
-   txt += "<li onclick=setBookCode('"+x+"')><a href='#view-paragraph'>" + bookObj[x] + "</a></li>";
+   txt += "<li onclick=setBookCode('"+x+"')><a href='#view-paragraph'>" + bookObj[x].book + "</a></li>";
 }
 document.getElementById("list").innerHTML = txt;
 
 function setBookCode(_bookCode){
+   totalVerses = bookObj[_bookCode].totalP;
    id = "";
    bookCode = _bookCode;  
    
    
 }
 function getParagraph(bookCode){
+
    var newID = getCurrentID(totalVerses);
     if (newID!=id){
         	id = newID;
