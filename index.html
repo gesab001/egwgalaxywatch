@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta name="viewport" content="width=device-width,user-scalable=no">
+	<title>List</title>
+	<link rel="stylesheet" href="lib/tau/wearable/theme/default/tau.min.css">
+	<link rel="stylesheet" media="all and (-tizen-geometric-shape: circle)" href="lib/tau/wearable/theme/default/tau.circle.min.css">
+	<!-- load theme file for your application -->
+	<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+	<div class="ui-page ui-page-active" id="main">
+		<header class="ui-header">
+			<h2 class="ui-title">TAU List</h2>
+		</header>
+		<div class="ui-content">
+			<ul class="ui-listview" id="list">
+
+			</ul>
+		</div>
+	</div>
+	
+	<div class="ui-page" id="view-paragraph">
+		<header class="ui-header">
+			<h2 class="ui-title">TAU Basic</h2>
+		</header>
+		<div class="ui-content ui-content-padding">
+			<p id="paragraph" >Hello! </p>
+		</div>
+	</div>
+	<script src="lib/tau/wearable/js/tau.min.js"></script>
+	<script src="js/circle-helper.js"></script>
+	<script src="js/app.js"></script>
+	<script src="js/lowBatteryCheck.js"></script>
+</body>
+
+<script>
+var bookObj = {"MH": "Ministry of Healing", "CD": "Counsels on Diet and Foods", 
+      			"DA": "Desire of Ages"};
+ 
+ var id = "";     			
+var txt = "";
+var totalVerses = 31102;
+var bookCode = "";
+for (var x in bookObj){
+   txt += "<li onclick=setBookCode('"+x+"')><a href='#view-paragraph'>" + bookObj[x] + "</a></li>";
+}
+document.getElementById("list").innerHTML = txt;
+
+function setBookCode(_bookCode){
+   id = "";
+   bookCode = _bookCode;  
+   
+   
+}
+function getParagraph(bookCode){
+   var newID = getCurrentID(totalVerses);
+    if (newID!=id){
+        	id = newID;
+        	document.getElementById("paragraph").innerHTML = bookCode + id;
+        	
+	}
+}
+
+
+function getCurrentID(totalVerses) {
+
+    var numberOfVerses = totalVerses;
+    var date1 = new Date();
+    var date2 = new Date(2018, 5, 23, 14, 45, 0, 0);
+    var difference = date1.getTime() - date2.getTime();
+    var minutesDifference = Math.floor(difference/1000/60)+1;
+    var currentID=minutesDifference;
+    while (currentID > numberOfVerses){
+        currentID = currentID - numberOfVerses;
+    }
+    return currentID.toString();
+}
+
+   setInterval(function(){ getParagraph(bookCode); }, 1000);
+
+</script>
+</html>
